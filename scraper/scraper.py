@@ -15,37 +15,33 @@ def get_products(driver):
     cards = driver.find_elements(By.CSS_SELECTOR, ".poly-card")
 
     for card in cards:
-            title = card.find_element(
-                By.CSS_SELECTOR, ".poly-component__title"
-            ).text
+        try:
+            link_element = card.find_element(By.CSS_SELECTOR, "a.poly-component__title")
 
-            price_whole = card.find_element(
-                By.CSS_SELECTOR, ".andes-money-amount__fraction"
-                ).text
-                
-            cents = card.find_element(
-                    By.CSS_SELECTOR, ".andes-money-amount__cents"
-                ).text
-            price = f"{price_whole},{cents}"
+            title = link_element.text
+            link = link_element.get_attribute("href")
+
+            price_whole = card.find_element(By.CSS_SELECTOR, ".andes-money-amount__fraction").text
+        except Exception as e:
+            continue
+        price = price_whole
             
-            rating = get_optional_text(card, ".ui-pdp-review__rating")
-            review_count = get_optional_text(
-                card, ".ui-review-capability__rating__label"
-            )
-            shipping = get_optional_text(card, ".poly-component__shipping")
+        rating = get_optional_text(card, ".poly-reviews__rating")
+        review_count = get_optional_text(card, ".poly-reviews__total")
+        shipping = get_optional_text(card, ".poly-component__shipping")
 
 
-            link = card.find_element(By.PARTIAL_LINK_TEXT, "a-link-normal").get_attribute("href")
+            
 
-            products.append({
-                "title": title,
-                "price_whole": price_whole,
-                "rating": rating,
-                "review_count": review_count,
-                "shipping": shipping,
-                "link": link
+        products.append({
+            "title": title,
+            "price": price,
+            "rating": rating,
+            "review_count": review_count,
+            "shipping": shipping,
+            "link": link
 
-            })
+        })
 
 
     return products

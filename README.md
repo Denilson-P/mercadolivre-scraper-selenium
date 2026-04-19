@@ -1,97 +1,103 @@
-# Mercadolivre Scraper (Selenium)
+# Web Scraper e Análise de Dados - Mercado Livre
 
-Script de **web scraping automatizado** que coleta informações de notebooks no Mercado Livre utilizando **Selenium** e organiza os dados em um arquivo CSV para análise.
+Projeto de automação desenvolvido em Python para coleta de dados de notebooks no Mercado Livre, seguido de tratamento, análise e geração de relatório em Excel.
 
-O projeto simula a navegação de um usuário real, percorrendo múltiplas páginas de resultados e extraindo dados relevantes dos produtos.
+## Descrição
 
----
+O projeto realiza um pipeline completo de dados:
 
-# Funcionalidades
+* Coleta automatizada de produtos utilizando Selenium
+* Extração de informações relevantes dos anúncios
+* Limpeza e tratamento dos dados com Pandas
+* Análise de preços e agrupamento por marca
+* Geração de relatório estruturado em Excel
 
-* Coleta automática de produtos (notebooks)
-* Navegação entre páginas (paginação)
-* Evita duplicidade de produtos
-* Extração de dados como:
+## Funcionalidades
 
-  * Título
+* Scraping de produtos diretamente do site
+* Coleta dos seguintes campos:
+
+  * Título do produto
   * Preço
   * Avaliação
-  * Quantidade de reviews
-  * Informações de frete
+  * Quantidade de avaliações
+  * Frete
   * Link do produto
-* Exportação dos dados para CSV
-* Tratamento de elementos opcionais
+* Tratamento de dados:
 
----
+  * Conversão de preços para formato numérico
+  * Remoção de valores inválidos
+  * Identificação de marca a partir do título
+* Análises realizadas:
 
-# Tecnologias utilizadas
+  * Ordenação por preço
+  * Cálculo de preço médio
+  * Identificação do produto mais barato e mais caro
+  * Filtro de produtos acima de um valor mínimo
+  * Análise de preços por marca (média, mínimo, máximo e quantidade)
+* Geração de relatório em Excel com múltiplas abas
+
+## Estrutura do Projeto
+
+projeto/
+│
+├── scraper/         # Lógica de coleta de dados com Selenium
+├── analysis/        # Tratamento e análise dos dados
+├── data/            # Armazenamento dos dados brutos (CSV)
+├── reports/         # Relatórios gerados (Excel)
+├── main.py          # Arquivo principal de execução
+
+## Tecnologias Utilizadas
 
 * Python
 * Selenium
 * Pandas
+* OpenPyXL
 
----
+## Como Executar
 
-# Estrutura do projeto
+1. Clonar o repositório:
 
-```
-.
-├── data/
-│   └── tabela.csv
-├── scraper/
-│   └── scraper.py
-├── main.py
-└── requirements.txt
-```
+git clone https://github.com/seu-usuario/seu-repositorio.git
 
----
+2. Acessar o diretório do projeto:
 
-# Como executar
+cd seu-repositorio
 
-```bash
-
-git clone https://github.com/SEU-USUARIO/mercadolivre-scraper-selenium.git
-
-
-cd mercadolivre-scraper-selenium
-
+3. Criar e ativar ambiente virtual:
 
 python -m venv env
+env\Scripts\activate  (Windows)
 
-
-env\Scripts\activate  
-
+4. Instalar dependências:
 
 pip install -r requirements.txt
 
+5. Executar o projeto:
 
 python main.py
-```
 
----
+## Saída
 
-# Saída
+Após a execução:
 
-Os dados coletados são salvos em:
+* Um arquivo CSV será gerado em `data/df.csv`
+* Um relatório Excel será gerado em `reports/notebooks_report.xlsx`
 
-```
-data/tabela.csv
-```
+O relatório contém:
 
----
+* Dados tratados
+* Ranking de preços
+* Produtos filtrados por faixa de preço
+* Análise por marca
+* Resumo com métricas principais
 
-# Objetivo do projeto
+## Observações
 
-Este projeto foi desenvolvido com foco em:
+* O site pode sofrer alterações de layout, o que pode impactar os seletores utilizados no scraping
+* O projeto inclui tratamento de exceções para lidar com elementos ausentes
+* Pequenos delays podem ser utilizados para evitar bloqueios durante a coleta
 
-* Prática de **web scraping com Selenium**
-* Manipulação de dados com **Pandas**
-* Simulação de comportamento real de navegação
-* Organização de dados para análise
+## Objetivo
 
----
-
-# Observações
-
-* O scraping depende da estrutura HTML do site, podendo quebrar caso haja alterações
-* Uso apenas para fins educacionais
+Este projeto foi desenvolvido com foco em prática de automação, coleta de dados e análise, simulando um fluxo real utilizado em aplicações de dados no mercado.

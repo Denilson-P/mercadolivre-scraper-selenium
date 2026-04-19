@@ -11,18 +11,19 @@ import random
 import time
 
 from scraper.scraper import get_products
+from analysis.analysis import analyze_data, analyze_price_range, generate_report
 
 
 
 BASE_URL = "https://lista.mercadolivre.com.br/notebook"
 TOTAL_NOTEBOOKS = 50
 OUTPUT_DIR = Path("data")
-OUTPUT_FILE = OUTPUT_DIR / "tabela.csv"
+OUTPUT_FILE = OUTPUT_DIR / "df.csv"
 
 
 def wait_cards(driver, timeout=15):
     WebDriverWait(driver, timeout).until(
-        EC.presence_of_element_located((By.CSS_SELECTOR, '.poly-title'))
+        EC.presence_of_element_located((By.CSS_SELECTOR, '.poly-component__title'))
     )
 
 
@@ -51,7 +52,6 @@ def scrape():
 
     try:
         driver.get(BASE_URL)
-        time.sleep(random.uniform(2,4))
         wait_cards(driver)
 
         results = []
@@ -91,8 +91,23 @@ def scrape():
 if __name__ == "__main__":
     try:
         tabela = scrape()
+
+        df, df_sorted, cheapest, most_expensive, average_price, price_by_brand = analyze_data(tabela)
+
+        price_range, _, _ = analyze_price_range(df, 800)
+
+        generate_report(
+            df,
+            df_sorted,
+            price_range,
+            average_price,
+            cheapest,
+            most_expensive,
+            price_by_brand,
+)
+
         print(f"Coleta finalizada com {len(tabela)} notebooks.")
-        print(f"Arquivo salvo em: {OUTPUT_FILE}")
+        print("Relatório gerado em: reports/relatorio_notebooks.xlsx")
     except TimeoutException:
         print("Nao foi possivel carregar os cards de produtos no tempo esperado.")
  
