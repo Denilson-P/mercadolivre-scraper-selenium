@@ -58,7 +58,7 @@ projeto/
 
 1. Clonar o repositório:
 
-git clone https://github.com/seu-usuario/seu-repositorio.git
+git clone https://github.com/Denilson-P/mercadolivre-scraper-selenium.git
 
 2. Acessar o diretório do projeto:
 
